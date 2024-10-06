@@ -15,7 +15,6 @@ def get_ip_info():
         response = requests.get(url)
         data = response.json()
         
-        # Extracting required information
         ipv4 = data.get('ip')
         ipv6 = data.get('ip') if ':' in data.get('ip') else None
         city = data.get('city')
@@ -24,7 +23,6 @@ def get_ip_info():
         geolocation = f"{data.get('latitude')}, {data.get('longitude')}"
         country_code = data.get('country_code')
 
-        # Prepare the response as JSON
         return jsonify({
             "ipv4": ipv4,
             "ipv6": ipv6,
