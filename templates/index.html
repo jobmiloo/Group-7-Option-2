@@ -4,24 +4,214 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IP Information</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Outfit", serif;
             background-color: #f5f5f5;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            flex-direction: column;
+            gap: 20px;
+            transition: background-color 0.3s, color 0.3s;
         }
-        .container {
+
+        body.light-mode {
+            background-color: #f5f5f5;
+            color: #212529;
+        }
+
+        body.light-mode .left-container,
+        body.light-mode .time-container,
+        body.light-mode .bdinfo-container {
+            color: #212529;
+            background-color: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-mode .date-h,
+        body.light-mode .label,
+        body.light-mode .ip-h
+        {
+            background-color: #212529;
+            color: #F8F9FA;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #212529;
+            color: #f8f9fa;
+        }
+
+        body.dark-mode .left-container,
+        body.dark-mode .time-container,
+        body.dark-mode .bdinfo-container {
+            color: #F8F9FA;
+            background-color: #343a40;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .date-h,
+        body.dark-mode .label,
+        body.dark-mode .ip-h
+        {
+            color: #212529;
+            background-color: #F8F9FA;
+        }
+
+        /* Dark and Light Mode Button Styles */
+        #mode-buttons {
+            position: absolute;
+            bottom: 60px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        #light-mode-btn {
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+
+        #dark-mode-btn {
+            background-color: #212529;
+            color: #f8f9fa;
+        }
+
+        /* Initially hide dark mode button if the light mode is set */
+        body.light-mode #dark-mode-btn {
+            display: none;
+        }
+
+        .page-container{
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+        }
+        
+        .left-container {
             background-color: white;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 30px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
-            text-align: center;
+            width: 500px;
+            max-width: 100%;
+            text-align: left;
+            font-weight: 500;
+            flex: 1;
+            margin-left: 5rem;
         }
+        #refresh-btn {
+            margin-top: 15px;
+            background-color: #a3b18a;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 800;
+            align-self: center;
+        }
+
+        #refresh-btn:hover {
+            background-color: #588157;
+        }
+
+        .bdinfo-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            max-width: 100%;
+            text-align: left;
+            font-weight: 500;
+        }
+            .ip-h{
+                font-size: 20px;
+                background-color: #212529;
+                color: #F8F9FA;
+                border-radius: 20px;
+                margin-bottom: 20px;
+                text-align: center;
+                font-weight: 700;
+                padding: 5px;
+            }
+
+            .label{
+                font-size: 15px;
+                background-color: #212529;
+                color: #F8F9FA;
+                border-radius: 20px;
+                margin-bottom: 20px;
+                font-weight: 500;
+                padding: 5px;
+                margin-right: 1rem;
+            }
+        .right-container {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 100%;
+            width: 500px;
+            text-align: center;
+            gap: 30px;
+            flex: 1;
+        }
+            .time-container {
+                background-color: #212529;
+                color: #F8F9FA;
+                padding: 20px;
+                border-radius: 30px;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+                width: 500px;
+                text-align: center;
+                max-width: 100%;
+            }
+                .time-h{
+                font-size: 50px;
+                margin-bottom: 20px;
+                }
+
+                .date-h{
+                font-size: 15px;
+                background-color: #F8F9FA;
+                color: #212529;
+                border-radius: 20px;
+                margin-bottom: 20px;
+                font-weight: 500;
+                padding: 5px;
+                margin-right: 1rem;
+                font-weight: 700;
+                }
+ 
+            .browser-container {
+                background-color: white;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+                width: 400px;
+                text-align: center;
+            }
         h1 {
             font-size: 24px;
             margin-bottom: 20px;
@@ -37,36 +227,148 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Your IP Information</h1>
-        <div id="loading">Loading...</div>
-        <div id="ip-info" style="display: none;">
-            <div class="info">IPv4: <span id="ipv4"></span></div>
-            <div class="info">IPv6: <span id="ipv6"></span></div>
-            <div class="info">ISP: <span id="isp"></span></div>
-            <div class="info">ASN: <span id="asn"></span></div>
-            <div class="info">Location: <span id="geolocation"></span></div>
-            <div class="info">Country Code: <span id="country_code"></span></div>
+
+        <div id="mode-buttons">
+            <button id="light-mode-btn" onclick="setLightMode()">Light Mode</button>
+            <button id="dark-mode-btn" onclick="setDarkMode()">Dark Mode</button>
+        </div>
+
+
+    <div class="page-container">
+        <div class="left-container">
+            <h1 class="ip-h">Your IP Information</h1>
+            <div id="loading">Loading...</div>
+            <div id="ip-info" style="display: none;">
+                <div class="info">
+                    <span class="label">IPv4:</span> <span id="ipv4"></span>
+                </div>
+                <div class="info">
+                    <span class="label">IPv6:</span> <span id="ipv6"></span>
+                </div>
+                <div class="info">
+                    <span class="label">ISP:</span> <span id="isp"></span>
+                </div>
+                <div class="info">
+                    <span class="label">ASN:</span> <span id="asn"></span>
+                </div>
+                <div class="info">
+                    <span class="label">Location:</span> <span id="geolocation"></span>
+                </div>
+                <div class="info">
+                    <span class="label">Country Code:</span> <span id="country_code"></span>
+                </div>
+            </div>
+            <button id="refresh-btn" onclick="refreshIPInfo()">Refresh IP Info</button>
+        </div>
+
+        <div class="right-container">
+        
+            <div class="time-container">
+                <h1 class="time-h" id="time-box">00:00</h1>
+                <h1 class="date-h" id="date-box">Month Day, Year</h1>
+            </div>
+
+            <div class="bdinfo-container">
+                <h1 class="ip-h">Browser and Device Information</h1>
+                <div id="ip-info">
+                    <div class="info">
+                        <span class="label">Browser:</span>
+                    </div>
+                    <div class="info">
+                        <span class="label">OS and Version:</span>
+                    </div>
+                    <div class="info">
+                        <span class="label">Device:</span>
+                </div>
+                
+            </div>
+            
         </div>
     </div>
 
     <script>
-        fetch('/api/ipinfo')
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('ip-info').style.display = 'block';
+        function fetchIPInfo() {
+            fetch('/api/ipinfo')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('ip-info').style.display = 'block';
 
-            document.getElementById('ipv4').innerText = data.ipv4 || "Not available";
-            document.getElementById('ipv6').innerText = data.ipv6 || "Not available";
-            document.getElementById('isp').innerText = data.isp || "Not available";
-            document.getElementById('asn').innerText = data.asn || "Not available";
-            document.getElementById('geolocation').innerText = data.geolocation || "Not available";
-            document.getElementById('country_code').innerText = data.country_code || "Not available";
-        })
-        .catch(error => {
-            document.getElementById('loading').innerText = "Error fetching IP information";
+                document.getElementById('ipv4').innerText = data.ipv4 || "Not available";
+                document.getElementById('ipv6').innerText = data.ipv6 || "Not available";
+                document.getElementById('isp').innerText = data.isp || "Not available";
+                document.getElementById('asn').innerText = data.asn || "Not available";
+                document.getElementById('geolocation').innerText = data.geolocation || "Not available";
+                document.getElementById('country_code').innerText = data.country_code || "Not available";
+            })
+            .catch(error => {
+                document.getElementById('loading').innerText = "Error fetching IP information";
+            });
+        }
+
+        // Function to refresh IP information
+        function refreshIPInfo() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('ip-info').style.display = 'none';
+            fetchIPInfo();
+        }
+
+        // Initial fetch when page loads
+        fetchIPInfo();
+
+        // Function to format time and date in desired format
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+            const month = now.toLocaleString('default', { month: 'long' });
+            const year = now.getFullYear();
+
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const hour12 = hours % 12 || 12;
+
+            const formattedTime = `${hour12}:${minutes} ${ampm}`;
+            const formattedDate = `${month} ${day}, ${year}`;
+
+            document.getElementById('time-box').innerText = `${formattedTime}`;
+            document.getElementById('date-box').innerText = `${formattedDate}`;
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime(); // Initial call to display time immediately
+
+        function setLightMode() {
+            // Set the light mode class on the body
+            document.body.classList.remove('dark-mode');
+            document.body.classList.add('light-mode');
+
+            // Hide Dark Mode button and show Light Mode button
+            document.getElementById('light-mode-btn').style.display = 'none';
+            document.getElementById('dark-mode-btn').style.display = 'block';
+        }
+
+        function setDarkMode() {
+            // Set the dark mode class on the body
+            document.body.classList.remove('light-mode');
+            document.body.classList.add('dark-mode');
+
+            // Hide Light Mode button and show Dark Mode button
+            document.getElementById('dark-mode-btn').style.display = 'none';
+            document.getElementById('light-mode-btn').style.display = 'block';
+        }
+
+        // Set default mode on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default mode based on the system preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                setDarkMode();
+            } else {
+                setLightMode();
+            }
         });
+
     </script>
 </body>
 </html>

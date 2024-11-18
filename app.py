@@ -14,6 +14,8 @@ def get_ip_info():
     try:
         response = requests.get(url)
         data = response.json()
+
+        print("Raw response from IP API:", data)
         
         ipv4 = data.get('ip')
         ipv6 = data.get('ip') if ':' in data.get('ip') else None
